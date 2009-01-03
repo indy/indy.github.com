@@ -15,7 +15,7 @@ Luckily I had access to the raw log files and with a bit of Emacs Lisp I was abl
 The following Lisp code was then used to generate a buffer which contained stats for: URLs ordered by most clicks, users ordered by most clicks and number of clicks per day:
 
 <pre>
-
+<code>
 (defun register-url-hit (words hash)
   (let ((url (nth 1 words)))
     (puthash url
@@ -163,5 +163,5 @@ The following Lisp code was then used to generate a buffer which contained stats
                   'identity)))
 
   nil)
-
+</code>
 </pre>

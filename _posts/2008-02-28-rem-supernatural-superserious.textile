@@ -1,0 +1,16 @@
+---
+layout: post
+title: R.E.M. Supernatural Superserious
+---
+
+p(meta). 28 February 2008
+
+h1. {{ page.title }}
+
+R.E.M released the videos for their latest single 'Supernatural Superserious' under an "open source license":http://www.readwriteweb.com/archives/rem_releases_new_videos_under_open_source_license.php
+
+Fans are encouraged to remix the videos and upload the results onto the single's "Youtube page":www.youtube.com/remsuperserious. So after a weekend of frantic monkeying around on Final Cut Pro, here's my version:
+
+<object width="425" height="355"><param name="movie" value="http://www.youtube.com/v/hwXcu6lFHD0" /><param name="wmode" value="transparent" /><embed src="http://www.youtube.com/v/hwXcu6lFHD0" type="application/x-shockwave-flash" wmode="transparent" width="425" height="355"></embed></object>
+
+Will eventually stick a higher quality version on this site, but in the meantime this Youtube link will have to do.
