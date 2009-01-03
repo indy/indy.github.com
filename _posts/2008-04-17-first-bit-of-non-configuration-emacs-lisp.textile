@@ -1,0 +1,167 @@
+---
+layout: post
+title: First bit of non-configuration Emacs Lisp
+---
+
+p(meta). 17 April 2008
+
+h1. {{ page.title }}
+
+One of the organisation's I'm volunteering for have asked me to analyse their web traffic and measure the effectiveness of mass emails they send out. Unfortunately their CMS system ignores arguments passed into URLs, grouping several separate pages to the same URL and badly skewing the statistics.
+Luckily I had access to the raw log files and with a bit of Emacs Lisp I was able to generate the stats required. Each line of the log took the following form:
+
+<pre>166869 www.foo.org.uk/content.asp?ID=42 someone@gmail.com day 38 - 15:15</pre>
+
+The following Lisp code was then used to generate a buffer which contained stats for: URLs ordered by most clicks, users ordered by most clicks and number of clicks per day:
+
+<pre>
+
+(defun register-url-hit (words hash)
+  (let ((url (nth 1 words)))
+    (puthash url
+             (1+ (gethash url hash 0))
+             hash)))
+
+(defun register-day (words hash)
+  (let ((day (nth 4 words)))
+    (puthash day
+             (1+ (gethash day hash 0))
+             hash)))
+
+(defun register-user-visit (words hash)
+  (let ((email (nth 2 words))
+        (url (nth 1 words)))
+    (puthash email
+             (cons url (gethash email hash '()))
+             hash)))
+
+(defun line-valid? (match)
+  (if (null match)
+      nil
+    (if (= 7 (length match))
+        t
+      nil)))
+
+(defun feed-split-line (fn hash)
+  (re-search-forward "^\\(.*\\)$" nil t)
+  (let ((match (split-string
+                (buffer-substring-no-properties (match-beginning 1)
+                                                (match-end 1)))))
+    (if (line-valid? match)
+        (funcall fn match hash))))
+
+(defun collect-stats (fn)
+  (let ((hash (make-hash-table :test 'equal)))
+    (save-excursion
+      (save-restriction
+        (widen)
+        (goto-char (point-min))
+        (feed-split-line fn hash)
+        (while (= (forward-line) 0)
+          (feed-split-line fn hash))))
+    (remhash "" hash)
+    hash))
+
+(defun sort-hash (hash value-fn)
+  (let ((l '()))
+    (maphash (lambda (k v)
+               (setq l (cons (cons k (funcall value-fn v))
+                             l)))
+             hash)
+    (sort l (lambda (a b)
+              (> (cdr a) (cdr b))))))
+
+(defun sort-hash-by-key (hash value-fn)
+  (let ((l '()))
+    (maphash (lambda (k v)
+               (setq l (cons (cons k (funcall value-fn v))
+                             l)))
+             hash)
+    (sort l (lambda (a b)
+              (< (string-to-number (car a)) (string-to-number (car b)))))))
+
+(defun merge-users (threshold users)
+  (let ((multiple-visits '())
+        (merged 0))
+    (mapc (lambda (user-visit)
+            (if (< (cdr user-visit) (1+ threshold))
+                (incf merged)
+              (setq multiple-visits
+                    (cons user-visit
+                          multiple-visits))))
+          users)
+    (nreverse (cons (cons (concat "users each performed "
+                                  (int-to-string threshold)
+                                  (if (= 1 threshold)
+                                      " click-through"
+                                    " or fewer click-throughs"))
+                          merged)
+                    multiple-visits))))
+
+(defun list-printer (stats)
+  (let ((i 0))
+    (mapc (lambda (stat)
+            (insert (int-to-string (incf i))
+                    ").  "
+                    (int-to-string (cdr stat))
+                    " "
+                    (car stat))
+            (newline))
+          stats)))
+
+(defun day-printer (stats)
+  (let ((i 0))
+    (while stats
+      (insert (int-to-string (incf i)) "). ")
+      (when (= (string-to-number (caar stats)) i)
+        (insert (int-to-string (cdar stats)))
+        (setq stats (cdr stats)))
+      (newline))))
+
+(defun day-printer (stats)
+  (let ((i 0))
+    (while stats
+      (insert (int-to-string (incf i)) "). ")
+      (if (= (string-to-number (caar stats)) i)
+          (progn
+            (insert (int-to-string (cdar stats)))
+            (setq stats (cdr stats)))
+        (insert "0"))
+      (newline))))
+
+(defun print-stats (printer-fn label stats)
+  (switch-to-buffer (concat "analysis-" (buffer-name)))
+  (insert label)
+  (newline)
+  (newline)
+  (funcall printer-fn stats)
+  (newline)
+  (newline))
+
+(defun analyse-transmission-clicks ()
+  "Returns stats about a buffer full of transmission click data"
+  (interactive)
+  (save-excursion
+    (print-stats 'list-printer
+                 "URL Stats"
+                 (sort-hash
+                  (collect-stats 'register-url-hit)
+                  'identity)))
+  (save-excursion
+    (print-stats 'list-printer
+                 "User Stats"
+                 (merge-users
+                  1
+                  (sort-hash
+                   (collect-stats 'register-user-visit)
+                   'length))))
+  (save-excursion
+    (print-stats 'day-printer
+                 "Day Stats"
+                 (sort-hash-by-key
+                  (collect-stats 'register-day)
+                  'identity)))
+
+  nil)
+
+</pre>
