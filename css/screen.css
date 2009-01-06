@@ -17,8 +17,9 @@ html, body {
 
 body {
   background-color: white;
-  font: 13.34px helvetica, arial, clean, sans-serif;
-  *font-size: small;
+  font-size: 12px;
+  font-family: "Lucida Grande", "Trebuchet MS", "Bitstream Vera Sans", Verdana, Helvetica, sans-serif;
+/*  *font-size: small;*/
   text-align: center;
 }
 
@@ -79,9 +80,9 @@ ul.posts {
 /*****************************************************************************/
 
 .site {
-  font-size: 110%;
+  font-size: 100%;
   text-align: justify;
-  width: 40em;
+  width: 45em;
   margin: 3em auto 2em auto;
   line-height: 1.5em;
 }
@@ -118,7 +119,7 @@ ul.posts {
   .site .footer {
     font-size: 80%;
     color: #666;
-    border-top: 4px solid #eee;
+/*    border-top: 4px solid #eee; */
     margin-top: 2em;
     overflow: hidden;
   }
@@ -157,14 +158,13 @@ ul.posts {
   #post pre {
     border: 1px solid #ddd;
     background-color: #eee;
-    padding: 0 .4em;
-    font-size: 80%;
+    padding: 0 .4em 0 0.8em;
+    font-size: 90%;
   }
 
   #post code {
     border: 1px solid #ddd;
-    background-color: #eef;
-    font-size: 95%;
+    background-color: #eee;
     padding: 0 .2em;
   }
 
