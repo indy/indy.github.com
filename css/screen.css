@@ -36,15 +36,16 @@ p {
 }
 
 a {
-  color: #00a;
+  color: #b4d5fe;
+  text-decoration: none;
 }
 
 a:hover {
-  color: black;
+  text-decoration: underline;
 }
 
 a:visited {
-  color: #a0a;
+  color: #a0a;                  /* change this color */
 }
 
 table {
@@ -118,7 +119,7 @@ ul.posts {
 
   .site .footer {
     font-size: 80%;
-    color: #666;
+    color: #000;
 /*    border-top: 4px solid #eee; */
     margin-top: 2em;
     overflow: hidden;
