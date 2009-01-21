@@ -20,6 +20,7 @@ body {
   font-size: 62.5%;
   font-family: "Lucida Grande", "Trebuchet MS", "Bitstream Vera Sans", Verdana, Helvetica, sans-serif;
   text-align: center;
+  color: #444;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -131,7 +132,7 @@ ul.posts {
     line-height: 1.2em;
   }
 
-  #post code {
+  #Post code {
     border: 1px solid #ddd;
     background-color: #eee;
     padding: 0 .2em;
