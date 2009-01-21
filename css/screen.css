@@ -36,16 +36,11 @@ p {
 }
 
 a {
-  color: #b4d5fe;
-  text-decoration: none;
-}
-
-a:hover {
+  color: #444;
   text-decoration: underline;
 }
-
-a:visited {
-  color: #a0a;                  /* change this color */
+a:hover {
+  color: #000;
 }
 
 table {
@@ -69,7 +64,7 @@ ul.posts {
   }
 
   ul.posts span {
-    color: #aaa;
+    color: #444;
     font-family: Monaco, "Courier New", monospace;
     font-size: 80%;
   }
