@@ -75,11 +75,11 @@ ul.posts {
 /*****************************************************************************/
 
 .site {
-  font-size: 100%;
+  font-size: 1.2em;
   text-align: justify;
-  width: 45em;
+  width: 48em;
   margin: 3em auto 2em auto;
-  line-height: 1.5em;
+  line-height: 1.8em;
 }
 
 .title {
@@ -126,8 +126,9 @@ ul.posts {
   #post pre {
     border: 1px solid #ddd;
     background-color: #eee;
-    padding: 0 .4em 0 0.8em;
-    font-size: 1.1em;
+    padding: .5em .4em .5em 0.4em;
+    font-size: 1.2em;
+    line-height: 1.2em;
   }
 
   #post code {
