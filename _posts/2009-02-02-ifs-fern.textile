@@ -1,0 +1,110 @@
+---
+layout: post
+title: Fern (Summer 2007)
+---
+
+p(meta). 2 February 2009
+
+h1. {{ page.title }}
+
+<div style="text-align:center">
+!/images/2009-02-02-fern.png!
+</div>
+Some early Common Lisp code that implements an Iterated Functions System and renders a fern. The parameters for the above image have been lost, but they would have looked something like this:
+<pre>
+<code>
+(create-ifs 512 
+            512 
+            *fern-functions* 
+            :mapping '(-5.0 -2.0 5.0 11.0) 
+            :iterations 2000000)
+</code>
+</pre>
+
+Here's the complete IFS system:
+
+<pre>
+<code>
+
+(defun fern1 (x y)
+  (values 0.0 (* 0.16 y)))
+
+(defun fern2 (x y)
+  (values (- (* 0.2 x) (* 0.26 y))
+          (+ (* 0.23 x) (* 0.22 y) 1.6)))
+
+(defun fern3 (x y)
+  (values (+ (* -0.15 x) (* 0.28 y))
+          (+ (* 0.26 x) (* 0.24 y) 0.44)))
+
+(defun fern4 (x y)
+  (values (+ (* 0.85 x) (* 0.04 y))
+          (+ (* -0.04 x) (* 0.85 y) 1.6)))
+
+(defparameter *fern-functions* (setup-function-weights '((0.85 fern4)
+                                                         (0.07 fern3)
+                                                         (0.07 fern2)
+                                                         (0.01 fern1))))
+
+(defun get-fun (funs)
+  (weighted-function (/ (random 1000) 1000.0) funs))
+
+(defun next-value (x y funs)
+  (funcall (get-fun funs) x y))
+
+(defun ifs-loop (iterations functions fn x y)
+  (let ((x1 x)
+        (y1 y))
+    (dotimes (i iterations)
+      (multiple-value-bind (xv yv)
+          (next-value x1 y1 functions)
+        (progn
+          (funcall fn xv yv)
+          (setf x1 xv)
+          (setf y1 yv))))
+    (values x1 y1)))
+
+(defun create-ifs-closure (mapping grid)
+  "returns a function which, when given xy co-ordinates will 
+   map them to a grid and increment the appropriate pixel."
+  (let* ((width (array-dimension grid 0))
+         (height (array-dimension grid 1))
+         (mapping1 (first mapping))
+         (mapping2 (second mapping))
+         (gw (/ (float (- width 1)) (- (third mapping) mapping1)))
+         (gh (/ (float (- height 1)) (- (fourth mapping)  mapping2))))
+    #'(lambda (x y)
+        (let* ((gx (floor (* (- x mapping1) gw)))
+               (gy (floor (* (- y mapping2) gh))))
+          (when (and (< gx width) (> gx 0) (< gy height) (> gy 0))
+            (incf (aref grid gx gy)))))))
+
+(defun prepare-iterations (warm-up functions mapping)
+  (labels ((dummy-function (x y)
+             (+ x y))
+           (random-within-mapping (min max)
+             (let ((range (- max min)))
+               (+ min (* range (/ (random 1000) 1000))))))
+    (let* ((x1 (random-within-mapping (first mapping) (third mapping)))
+           (y1 (random-within-mapping (second mapping) (fourth mapping))))
+      (when warm-up
+        (multiple-value-bind (xp yp)
+            (ifs-loop warm-up functions #'dummy-function x1 y1)
+          (progn
+            (setf x1 xp)
+            (setf y1 yp))))
+      (values x1 y1))))
+
+(defun create-ifs (width height functions &key
+                    warm-up
+                    (mapping '(-1.0 -1.0 1.0 1.0))
+                    (iterations 100000))
+  (let* ((grid (make-array (list width height) :initial-element 0))
+         (closure (create-ifs-closure mapping grid)))
+    (multiple-value-bind (x y)
+        (prepare-iterations warm-up functions mapping)
+      (ifs-loop iterations functions closure x y))
+    grid))
+
+</code>
+</pre>
