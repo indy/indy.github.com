@@ -1,0 +1,128 @@
+---
+layout: post
+title: Sudoku in Common Lisp (Summer 2007)
+---
+
+p(meta). 2 February 2009
+
+h1. {{ page.title }}
+
+The first piece of Common Lisp software I ever wrote:
+
+<pre>
+<code>
+(defun pp-grid (grid)
+  "pretty prints the sudoku grid"
+  (labels ((show-row (row)
+                     (format t (if (and (= 0 (mod row 3))
+                                        (not (= row 0)))
+                                   "~%~A ~A ~A  ~A ~A ~A  ~A ~A ~A~%"
+                                 "~A ~A ~A  ~A ~A ~A  ~A ~A ~A~%")
+                             (get-digit grid 0 row)
+                             (get-digit grid 1 row)
+                             (get-digit grid 2 row)
+                             (get-digit grid 3 row)
+                             (get-digit grid 4 row)
+                             (get-digit grid 5 row)
+                             (get-digit grid 6 row)
+                             (get-digit grid 7 row)
+                             (get-digit grid 8 row))))
+          (dotimes (row 9)
+            (show-row row))))
+
+
+(defun all-digits ()
+  (vector 1 2 3 4 5 6 7 8 9))
+
+(defun get-digit (grid x y)
+  (aref grid y x))
+
+(defun set-digit (grid x y val)
+  (setf (aref grid y x) val))         ;why can't get-digit be used here?
+
+(defun make-grid (vals)
+  (let ((grid (make-array '(9 9) :initial-element 0)))
+    (progn
+      (dotimes (y 9)
+         (dotimes (x 9)
+           (set-digit grid x y (pop vals))))
+      (return-from make-grid grid))))
+
+(defun save-grid (grid filename)
+  (with-open-file (out filename
+                   :direction :output
+                   :if-exists :supersede)
+    (with-standard-io-syntax (print grid out))))
+
+(defun load-grid (grid filename)
+  (with-open-file (in filename)
+    (with-standard-io-syntax
+      (setf grid (read in)))))
+
+(defun remove-from-digits (grid digits x y)
+  (remove (get-digit grid x y) digits))
+
+(defun check-row (grid row possible-digits)
+  "returns all the possible digits for this row"
+  (labels ((check-row-i (col digits)
+             (if (= col 9)
+                 digits
+                 (check-row-i (+ col 1)
+                              (remove-from-digits grid digits col row)))))
+    (check-row-i 0 possible-digits)))
+
+(defun check-column (grid col possible-digits)
+  "returns all the possible digits for this column"
+  (labels ((check-column-i (row digits)
+             (if (= row 9)
+                 digits
+                 (check-column-i (+ row 1)
+                                 (remove-from-digits grid digits col row)))))
+    (check-column-i 0 possible-digits)))
+
+(defun check-square (grid x y possible-digits)
+  "returns all the possible digits for this square"
+  (let ((start-x (* 3 (floor x 3)))
+        (start-y (* 3 (floor y 3)))
+        (digits possible-digits))
+    (do ((xi start-x (+ xi 1)))
+        ((= xi (+ start-x 3)) digits)
+      (do ((yi start-y (+ yi 1)))
+          ((= yi (+ start-y 3)))
+        (setf digits (remove-from-digits grid digits xi yi))))))
+
+(defun potential-matches (grid x y)
+  (check-row grid y (check-column grid x (check-square grid x y (all-digits)))))
+
+;; must be a better way of counting digits
+(defun unknown-digits (grid)
+  (let ((unknowns 0))
+    (do ((y 0 (incf y)))
+        ((= y 9) unknowns)
+      (dotimes (x 9)
+        (if (= 0 (get-digit grid x y))
+            (incf unknowns))))))
+
+(defun scan-grid (grid)
+  (dotimes (x 9)
+    (dotimes (y 9)
+      (if (= 0 (get-digit grid x y))
+          (let ((matches (potential-matches grid x y)))
+            (if (= 1 (length matches))
+                (set-digit grid x y (aref matches 0))))))))
+
+(defun sudoku (grid)
+  "main function for solving sudoku"
+  (labels ((sud (unknowns)
+             (progn
+               (scan-grid grid)
+               (if (= (unknown-digits grid) unknowns)
+                   unknowns
+                   (sud (unknown-digits grid))))))
+    (progn
+      (sud 0)
+      (return-from sudoku grid))))
+
+
+</code>
+</pre>

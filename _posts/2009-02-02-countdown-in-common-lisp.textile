@@ -1,0 +1,63 @@
+---
+layout: post
+title: Countdown in Common Lisp (written December 2007)
+---
+
+p(meta). 2 February 2009
+
+h1. {{ page.title }}
+
+<pre>
+<code>
+
+(defparameter *word-hash* (make-hash-table :test #'equal ))
+
+(defun add-word (word)
+  "adds the word to the word-hash"
+  (let* ((key (sort (copy-seq word) #'char<))
+         (entry (gethash key *word-hash*)))
+    (if (null entry)
+        (setf (gethash key *word-hash*) (cons word nil))
+        (setf (gethash key *word-hash*) (cons word entry)))))
+
+(defun get-words (key)
+  (gethash (sort (copy-seq key) #'char<) *word-hash*))
+
+(defun read-word-file (filename)
+  "read a file of words"
+  (iglu:each-line-in-file #'add-word filename))
+
+(defun bit-set? (value bit)
+  (if (= 0 (boole boole-and value bit)) nil t))
+
+(defun remove-bits (bits word)
+  (let ((word-length (length word))
+        (new-word (copy-seq word)))
+    (do ((i 1 (* i 2)) ; i = current bit in the word (ascending left to right)
+         (j 0 (1+ j)))                  ; j = counter
+        ((= j word-length) (remove #\0 new-word))
+      (if (bit-set? bits i)
+          (setf (elt new-word j) #\0)))))
+
+(defun ordered-unique-word-list (word-list)
+  "removes duplicate words and orders by length"
+  (sort
+   (remove-duplicates word-list :test #'equal)
+   #'(lambda (a b) (> (length a) (length b)))))
+
+(defun permutations (word)
+  (let ((word-list '())
+        (largest-bit-value (- (expt 2 (length word)) 1)))
+    (do ((i 0 (1+ i)))
+        ((= i largest-bit-value) (ordered-unique-word-list word-list))
+      (setf word-list (cons (remove-bits i word)
+                            word-list)))))
+
+(defun countdown (word)
+  (ordered-unique-word-list (iglu:flatmap #'get-words
+                                          (permutations word))))
+
+
+
+</code>
+</pre>
