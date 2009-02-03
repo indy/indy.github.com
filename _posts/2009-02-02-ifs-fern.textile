@@ -1,11 +1,8 @@
 ---
 layout: post
 title: Fern (Summer 2007)
+published: 2 February 2009
 ---
-
-p(meta). 2 February 2009
-
-h1. {{ page.title }}
 
 <div style="text-align:center">
 !/images/2009-02-02-fern.png!

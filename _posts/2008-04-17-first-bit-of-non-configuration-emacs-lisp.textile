@@ -1,11 +1,8 @@
 ---
 layout: post
 title: First bit of non-configuration Emacs Lisp
+published: 17 April 2008
 ---
-
-p(meta). 17 April 2008
-
-h1. {{ page.title }}
 
 One of the organisations I volunteer for have asked me to analyse their web traffic and measure the effectiveness of sending out mass emails. Unfortunately their CMS system ignores arguments passed into URLs, grouping several separate pages to the same URL and badly skewing the statistics.
 Luckily I had access to the raw log files and with a bit of Emacs Lisp I was able to generate the stats required. Each line of the log took the following form:

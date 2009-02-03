@@ -1,11 +1,8 @@
 ---
 layout: post
 title: R.E.M. Supernatural Superserious
+published: 28 February 2008
 ---
-
-p(meta). 28 February 2008
-
-h1. {{ page.title }}
 
 R.E.M released the videos for their latest single 'Supernatural Superserious' under an "open source license":http://www.readwriteweb.com/archives/rem_releases_new_videos_under_open_source_license.php
 

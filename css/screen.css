@@ -1,38 +1,6 @@
-/*****************************************************************************/
-/*
-/* Common
-/*
-/*****************************************************************************/
 
-/* Global Reset */
-
-* {
-  margin: 0;
-  padding: 0;
-}
-
-html, body {
-  height: 100%;
-}
-
-body {
-  background-color: white;
-  font-size: 62.5%;
-  font-family: "Lucida Grande", "Trebuchet MS", "Bitstream Vera Sans", Verdana, Helvetica, sans-serif;
-  text-align: center;
-  color: #444;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-size: 100%;
-}
-
-h1 {
-  margin-bottom: 1em;
-}
-
-p {
-  margin: 1em 0;
+#index { 
+  margin-top: 5em;
 }
 
 a {
@@ -43,114 +11,71 @@ a:hover {
   color: #000;
 }
 
-table {
-  font-size: inherit;
-  font: 100%;
-}
-
-/*****************************************************************************/
-/*
-/* Home
-/*
-/*****************************************************************************/
-
-ul.posts {
-  list-style-type: none;
-  margin-bottom: 2em;
-}
-
-  ul.posts li {
-    line-height: 1.75em;
-  }
-
-  ul.posts span {
-    color: #444;
-    font-family: Monaco, "Courier New", monospace;
-    font-size: 80%;
-  }
-
-/*****************************************************************************/
-/*
-/* Site
-/*
-/*****************************************************************************/
-
-.site {
-  font-size: 1.2em;
-  text-align: justify;
-  width: 48em;
-  margin: 3em auto 2em auto;
-  line-height: 1.8em;
-}
-
 .title {
   color: #a00;
   font-weight: bold;
-  margin-bottom: 2em;
 }
 
-  .site .title a {
-    color: #a00;
-    text-decoration: none;
-  }
-
-  .site .title a:hover {
-    color: black;
-  }
-
-  .site .title a.extra {
-    color: #aaa;
-    text-decoration: none;
-    margin-left: 1em;
-  }
-
-  .site .title a.extra:hover {
-    color: black;
-  }
-
-  .site .meta {
-    color: #aaa;
-  }
-
-/*****************************************************************************/
-/*
-/* Posts
-/*
-/*****************************************************************************/
-
-#post {
-
+.site .title a {
+  color: #a00;
+  text-decoration: none;
 }
 
-  /* standard */
+.site .title a:hover {
+  color: black;
+}
 
-  #post pre {
-    border: 1px solid #ddd;
-    background-color: #eee;
-    padding: .5em .4em .5em 0.4em;
-    font-size: 1.2em;
-    line-height: 1.2em;
-  }
+.site .title a.extra {
+  color: #aaa;
+  text-decoration: none;
+}
 
-  #Post code {
-    border: 1px solid #ddd;
-    background-color: #eee;
-    padding: 0 .2em;
-  }
+.site .title a.extra:hover {
+  color: black;
+}
 
-    #post pre code {
-      border: none;
-    }
+.site .meta {
+  color: #aaa;
+}
 
-  /* terminal */
+/* h1 here has the same appearence as blueprint's default h3 */
+h1 {font-size:1.5em;line-height:1;margin-bottom:1em;}
+/* from the default blueprint screen.css except that font size is 0.9em */
+pre, code, tt {font:0.9em 'andale mono', 'lucida console', monospace;line-height:1.5;}
 
-  #post pre.terminal {
-    border: 1px solid black;
-    background-color: #333;
-    color: white;
-  }
+#post { 
+  margin-top: 3em;
+}
 
-  #post pre.terminal code {
-    background-color: #333;
-  }
+#post .publish-date { 
+  text-align: right;
+  margin-bottom: 0;
+  color: #aaa;
+}
+
+#post pre {
+  border: 1px solid #ddd;
+  background-color: #eee;
+}
+
+#post code {
+  border: 1px solid #ddd;
+  background-color: #eee;
+}
+
+#post pre code {
+  border: none;
+}
+
+/* terminal */
+
+#post pre.terminal {
+  border: 1px solid black;
+  background-color: #333;
+  color: white;
+}
+
+#post pre.terminal code {
+  background-color: #333;
+}
 
