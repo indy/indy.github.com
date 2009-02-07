@@ -65,7 +65,10 @@ The first piece of Common Lisp software I ever wrote:
              (if (= col 9)
                  digits
                  (check-row-i (+ col 1)
-                              (remove-from-digits grid digits col row)))))
+                              (remove-from-digits grid 
+                                                  digits 
+                                                  col 
+                                                  row)))))
     (check-row-i 0 possible-digits)))
 
 (defun check-column (grid col possible-digits)
@@ -74,7 +77,10 @@ The first piece of Common Lisp software I ever wrote:
              (if (= row 9)
                  digits
                  (check-column-i (+ row 1)
-                                 (remove-from-digits grid digits col row)))))
+                                 (remove-from-digits grid 
+                                                     digits 
+                                                     col 
+                                                     row)))))
     (check-column-i 0 possible-digits)))
 
 (defun check-square (grid x y possible-digits)
@@ -89,7 +95,14 @@ The first piece of Common Lisp software I ever wrote:
         (setf digits (remove-from-digits grid digits xi yi))))))
 
 (defun potential-matches (grid x y)
-  (check-row grid y (check-column grid x (check-square grid x y (all-digits)))))
+  (check-row grid 
+             y 
+             (check-column grid
+                           x 
+                           (check-square grid 
+                                         x 
+                                         y 
+                                         (all-digits)))))
 
 ;; must be a better way of counting digits
 (defun unknown-digits (grid)

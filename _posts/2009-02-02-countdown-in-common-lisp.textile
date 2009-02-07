@@ -30,7 +30,8 @@ published: 2 February 2009
 (defun remove-bits (bits word)
   (let ((word-length (length word))
         (new-word (copy-seq word)))
-    (do ((i 1 (* i 2)) ; i = current bit in the word (ascending left to right)
+    ; i = current bit in the word (ascending left to right)
+    (do ((i 1 (* i 2)) 
          (j 0 (1+ j)))                  ; j = counter
         ((= j word-length) (remove #\0 new-word))
       (if (bit-set? bits i)

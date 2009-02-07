@@ -1,3 +1,10 @@
+body {
+  font-size:90%;
+  color:#222;
+  background:#fff;
+  font-family:palatino,georgia,verdana,arial,sans-serif;
+}
+
 
 #index { 
   margin-top: 5em;
@@ -40,8 +47,10 @@ a:hover {
 
 /* h1 here has the same appearence as blueprint's default h3 */
 h1 {font-size:1.5em;line-height:1;margin-bottom:1em;}
-/* from the default blueprint screen.css except that font size is 0.9em */
-pre, code, tt {font:0.9em 'andale mono', 'lucida console', monospace;line-height:1.5;}
+
+/* from the default blueprint screen.css except that font size is 0.88em */
+pre, code, tt {
+font:0.88em 'andale mono', 'lucida console', monospace;line-height:1.5;}
 
 #post { 
   margin-top: 3em;
