@@ -50,7 +50,9 @@ h1 {font-size:1.5em;line-height:1;margin-bottom:1em;}
 
 /* from the default blueprint screen.css except that font size is 0.88em */
 pre, code, tt {
-font:0.88em 'andale mono', 'lucida console', monospace;line-height:1.5;}
+  font:11px 'andale mono', 'lucida console', monospace;
+  line-height:1.5;
+}
 
 #post { 
   margin-top: 3em;

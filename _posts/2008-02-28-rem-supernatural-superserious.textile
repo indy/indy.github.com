@@ -8,6 +8,6 @@ R.E.M released the videos for their latest single 'Supernatural Superserious' un
 
 Fans are encouraged to remix the videos and upload the results onto the single's "Youtube page":www.youtube.com/remsuperserious. So after a weekend of frantic monkeying around on Final Cut Pro, here's my version:
 
-<object width="425" height="355"><param name="movie" value="http://www.youtube.com/v/hwXcu6lFHD0" /><param name="wmode" value="transparent" /><embed src="http://www.youtube.com/v/hwXcu6lFHD0" type="application/x-shockwave-flash" wmode="transparent" width="425" height="355"></embed></object>
+<div style="text-align:center"><object width="425" height="355"><param name="movie" value="http://www.youtube.com/v/hwXcu6lFHD0" /><param name="wmode" value="transparent" /><embed src="http://www.youtube.com/v/hwXcu6lFHD0" type="application/x-shockwave-flash" wmode="transparent" width="425" height="355"></embed></object></div>
 
 Will eventually stick a higher quality version on this site, but in the meantime this Youtube link will have to do.

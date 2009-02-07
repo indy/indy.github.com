@@ -8,20 +8,18 @@ published: 2 February 2009
 !/images/2009-02-02-fern.png!
 </div>
 Some early Common Lisp code that implements an Iterated Functions System and renders a fern. The parameters for the above image have been lost, but they would have looked something like this:
-<pre>
-<code>
+<pre><code>
 (create-ifs 512 
             512 
             *fern-functions* 
             :mapping '(-5.0 -2.0 5.0 11.0) 
             :iterations 2000000)
-</code>
-</pre>
+
+</code></pre>
 
 Here's the complete IFS system:
 
-<pre>
-<code>
+<pre><code>
 
 (defun fern1 (x y)
   (values 0.0 (* 0.16 y)))
@@ -103,5 +101,4 @@ Here's the complete IFS system:
       (ifs-loop iterations functions closure x y))
     grid))
 
-</code>
-</pre>
+</code></pre>

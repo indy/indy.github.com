@@ -35,7 +35,8 @@ The first piece of Common Lisp software I ever wrote:
   (aref grid y x))
 
 (defun set-digit (grid x y val)
-  (setf (aref grid y x) val))         ;why can't get-digit be used here?
+  ; why can't get-digit be used here?
+  (setf (aref grid y x) val))
 
 (defun make-grid (vals)
   (let ((grid (make-array '(9 9) :initial-element 0)))
