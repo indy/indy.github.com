@@ -8,19 +8,21 @@ published: 2 February 2009
 !/images/2009-02-02-fern.png!
 </div>
 Some early Common Lisp code that implements an Iterated Functions System and renders a fern. The parameters for the above image have been lost, but they would have looked something like this:
-<pre><code>
+
+<pre>
+<code>
 (create-ifs 512 
             512 
             *fern-functions* 
             :mapping '(-5.0 -2.0 5.0 11.0) 
             :iterations 2000000)
-
-</code></pre>
+</code>
+</pre>
 
 Here's the complete IFS system:
 
-<pre><code>
-
+<pre>
+<code>
 (defun fern1 (x y)
   (values 0.0 (* 0.16 y)))
 
@@ -36,10 +38,10 @@ Here's the complete IFS system:
   (values (+ (* 0.85 x) (* 0.04 y))
           (+ (* -0.04 x) (* 0.85 y) 1.6)))
 
-(defparameter *fern-functions* (setup-function-weights '((0.85 fern4)
-                                                         (0.07 fern3)
-                                                         (0.07 fern2)
-                                                         (0.01 fern1))))
+(defparameter *fern-functions* (setup-function-weights '((.85 fern4)
+                                                         (.07 fern3)
+                                                         (.07 fern2)
+                                                         (.01 fern1))))
 
 (defun get-fun (funs)
   (weighted-function (/ (random 1000) 1000.0) funs))
@@ -80,8 +82,10 @@ Here's the complete IFS system:
            (random-within-mapping (min max)
              (let ((range (- max min)))
                (+ min (* range (/ (random 1000) 1000))))))
-    (let* ((x1 (random-within-mapping (first mapping) (third mapping)))
-           (y1 (random-within-mapping (second mapping) (fourth mapping))))
+    (let* ((x1 (random-within-mapping (first mapping) 
+                                      (third mapping)))
+           (y1 (random-within-mapping (second mapping) 
+                                      (fourth mapping))))
       (when warm-up
         (multiple-value-bind (xp yp)
             (ifs-loop warm-up functions #'dummy-function x1 y1)
@@ -100,5 +104,5 @@ Here's the complete IFS system:
         (prepare-iterations warm-up functions mapping)
       (ifs-loop iterations functions closure x y))
     grid))
-
-</code></pre>
+</code>
+</pre>

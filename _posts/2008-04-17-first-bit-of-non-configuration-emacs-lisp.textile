@@ -75,7 +75,8 @@ The following Lisp code was then used to generate a buffer which contained stats
                              l)))
              hash)
     (sort l (lambda (a b)
-              (< (string-to-number (car a)) (string-to-number (car b)))))))
+              (< (string-to-number (car a)) 
+                 (string-to-number (car b)))))))
 
 (defun merge-users (threshold users)
   (let ((multiple-visits '())
