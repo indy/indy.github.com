@@ -5,35 +5,40 @@ published: 11 February 2009
 ---
 
 Get the latest build of Clojure:
-<pre><code>
+
+<pre>
+<code>
 cd ~/lang
 svn co https://clojure.svn.sourceforge.net/svnroot/clojure/trunk clojure
-
-</code></pre>
+</code>
+</pre>
 
 Create a file called clojure which contains the following:
 
-<pre><code>
+<pre>
+<code>
 #!/bin/sh -e
 
 java -server -Xdebug \
   -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8888 \
   -cp ~/lang/clojure/clojure.jar clojure.lang.Repl
-
-</code></pre>
+</code>
+</pre>
 
 Save it into a directory in your $PATH and make it executable:
 
 <pre><code>chmod 744 clojure</code></pre>
 
 Grab some libraries which connect Clojure to Emacs
-<pre><code>
+
+<pre>
+<code>
 cd ~/.emacs.d/external
 git clone git://github.com/nablaone/slime.git
 git clone git://github.com/jochu/clojure-mode.git
 git clone git://github.com/jochu/swank-clojure.git
-
-</code></pre>
+</code>
+</pre>
 
 Setup Emacs to work with Clojure
 
@@ -74,17 +79,19 @@ Setup Emacs to work with Clojure
 
 Now load up Emacs and press:
 
-<pre><code>
+<pre>
+<code>
 C-u -
 M-x slime
 cl <TAB>          (emacs should autocomplete this to clojure)
 <RETURN>
-
-</code></pre>
+</code>
+</pre>
 
 Staying upto date with Clojure is now just a matter of:
 
-<pre><code>
+<pre>
+<code>
 cd ~/lang/clojure
 svn update
 cd ~/emacs.d/external/slime
@@ -93,8 +100,10 @@ cd ~/emacs.d/external/swank-clojure
 git pull
 cd ~/emacs.d/external/clojure-mode
 git pull
+</code>
+</pre>
 
-</code></pre>
+
 
 
 
