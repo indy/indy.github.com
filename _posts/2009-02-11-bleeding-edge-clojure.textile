@@ -1,0 +1,116 @@
+---
+layout: post
+title: Bleeding edge Clojure
+published: 11 February 2009
+---
+
+Get the latest build of Clojure:
+<pre><code>
+cd ~/lang
+svn co https://clojure.svn.sourceforge.net/svnroot/clojure/trunk clojure
+
+</code></pre>
+
+Create a file called clojure which contains the following:
+
+<pre><code>
+#!/bin/sh -e
+
+java -server -Xdebug \
+  -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8888 \
+  -cp ~/lang/clojure/clojure.jar clojure.lang.Repl
+
+</code></pre>
+
+Save it into a directory in your $PATH and make it executable:
+
+<pre><code>chmod 744 clojure</code></pre>
+
+Grab some libraries which connect Clojure to Emacs
+<pre><code>
+cd ~/.emacs.d/external
+git clone git://github.com/nablaone/slime.git
+git clone git://github.com/jochu/clojure-mode.git
+git clone git://github.com/jochu/swank-clojure.git
+
+</code></pre>
+
+Setup Emacs to work with Clojure
+
+<pre>
+<code>
+(add-to-list 'load-path "~/.emacs.d/external/slime")
+(add-to-list 'load-path "~/.emacs.d/external/swank-clojure")
+(add-to-list 'load-path "~/.emacs.d/external/clojure-mode")
+
+(autoload 'clojure-mode "clojure-mode" "A major mode for Clojure" t)
+(add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode))
+
+(require 'slime)
+(eval-after-load "slime"
+  '(progn
+    (add-hook 'lisp-mode-hook (lambda ()
+                                (slime-mode t)))
+    (add-hook 'inferior-lisp-mode-hook (lambda ()
+                                         (inferior-slime-mode t)))
+    (setq inferior-lisp-program "/usr/bin/sbcl"
+     lisp-indent-function 'common-lisp-indent-function)
+    (slime-setup '(slime-fancy slime-asdf))))
+
+(setq swank-clojure-binary "clojure")
+(require 'swank-clojure-autoload)
+(add-to-list 'slime-lisp-implementations
+             '(sbcl ("/usr/bin/sbcl")))
+
+(eval-after-load "clojure-mode"
+  '(progn
+    (defun clojure-paredit-hook ()
+      (paredit-mode +1))
+    (add-hook 'clojure-mode-hook 'clojure-paredit-hook)
+    (define-key clojure-mode-map "{" 'paredit-open-brace)
+    (define-key clojure-mode-map "}" 'paredit-close-brace)))
+</code>
+</pre>
+
+Now load up Emacs and press:
+
+<pre><code>
+C-u -
+M-x slime
+cl <TAB>          (emacs should autocomplete this to clojure)
+<RETURN>
+
+</code></pre>
+
+Staying upto date with Clojure is now just a matter of:
+
+<pre><code>
+cd ~/lang/clojure
+svn update
+cd ~/emacs.d/external/slime
+git pull
+cd ~/emacs.d/external/swank-clojure
+git pull
+cd ~/emacs.d/external/clojure-mode
+git pull
+
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
