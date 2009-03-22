@@ -9,7 +9,9 @@ Get the latest build of Clojure:
 <pre>
 <code>
 cd ~/lang
-svn co https://clojure.svn.sourceforge.net/svnroot/clojure/trunk clojure
+svn co http://clojure.googlecode.com/svn/trunk clojure
+cd clojure
+ant
 </code>
 </pre>
 
@@ -94,6 +96,7 @@ Staying upto date with Clojure is now just a matter of:
 <code>
 cd ~/lang/clojure
 svn update
+ant
 cd ~/emacs.d/external/slime
 git pull
 cd ~/emacs.d/external/swank-clojure
