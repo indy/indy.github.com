@@ -4,14 +4,14 @@ layout: nil
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
  
- <title>Indy</title>
+ <title>indy.io - github</title>
  <link href="http://indy.github.com/atom.xml" rel="self"/>
  <link href="http://indy.github.com/"/>
  <updated>{{ site.time | date_to_xmlschema }}</updated>
  <id>http://indy.github.com/</id>
  <author>
-   <name>Inderjit Gill</name>
-   <email>inderjit.gill@gmail.com</email>
+   <name>indy</name>
+   <email>email@indy.io</email>
  </author>
 
  {% for post in site.posts %}
