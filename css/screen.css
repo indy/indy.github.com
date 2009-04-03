@@ -49,8 +49,9 @@ a:hover {
 h1 {font-size:1.5em;line-height:1;margin-bottom:1em;}
 
 /* from the default blueprint screen.css except that font size is 0.88em */
+/* and font is now courier */
 pre, code, tt {
-  font:11px 'andale mono', 'lucida console', monospace;
+  font:11px courier, monospace;
   line-height:1.5;
 }
 
@@ -65,14 +66,9 @@ pre, code, tt {
 }
 
 #post pre {
-  border: 1px solid #ddd;
-  background-color: #eee;
+  border: 1px solid #efefef;
+  background-color: #fcfcfc;
   padding-left: 5px;
-}
-
-#post code {
-  border: 1px solid #ddd;
-  background-color: #eee;
 }
 
 #post pre code {
